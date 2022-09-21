@@ -11,6 +11,9 @@ export default async function handleLogin(req, res) {
         case "GET": {
             return CheckToken(req, res);
         }
+        default: {
+            return res.status(404).json();
+          }
     }
 }
 
