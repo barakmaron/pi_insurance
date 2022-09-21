@@ -1,0 +1,37 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+    article > h1 {
+        @apply sm:text-4xl;
+        @apply text-3xl;
+        @apply my-4;
+    }
+    article > h2 {
+        @apply sm:text-3xl;
+        @apply text-2xl;
+        @apply my-4;
+        @apply py-5;
+        @apply px-2;
+    }
+    article > h3 {
+        @apply sm:text-2xl;
+        @apply text-xl;
+        @apply my-4;
+        @apply py-5;
+        @apply px-5;
+    }
+    article > p {
+        @apply px-5;
+        @apply my-1;
+    }
+    article > ul {
+        @apply list-disc;
+        @apply px-7;
+    }
+    article > ol {
+        @apply list-decimal;
+        @apply px-7;
+    }
+}
