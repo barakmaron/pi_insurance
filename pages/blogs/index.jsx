@@ -1,9 +1,8 @@
-import axios from 'axios';
 import Head from 'next/head';
 import Navbar from '../../components/NavBar/NavBar';
 import Constants from '../../Constants';
 import Link from 'next/link';
-import SendApiRequest from '../../services/ApiService';
+import { supabaseAdmin } from '../../../services/ApiService';
 
 const blogs = ({ articles }) => {
   return (<>
