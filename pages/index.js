@@ -71,7 +71,7 @@ export default function Home({ year }) {
           <ul className='flex sm:gap-10 flex-wrap justify-around px-10 text-center gap-5'>
             <li className=' sm:w-80'>
               <h3 className='sm:text-3xl font-bold text-xl pb-4'>Get an instant quote</h3>
-              <p>You're insured in just a few clicks. We provide simple self-service from onboarding to claiming.</p>
+              <p>You`re insured in just a few clicks. We provide simple self-service from onboarding to claiming.</p>
             </li>
             <li className=' sm:w-80'>
               <h3 className='sm:text-3xl font-bold text-xl  pb-4'>A real-time alert system</h3>
@@ -90,7 +90,7 @@ export default function Home({ year }) {
         </div>
         <div className='py-10 flex flex-col md:flex-row justify-center xl:gap-96 gap-5 items-center sm:px-20 '>
           <div className='sm:w-96 w-fit mx-10'>
-            <h2 className='sm:text-5xl text-3xl font-bold'>Let's say your account has been hacked. What's next?</h2>
+            <h2 className='sm:text-5xl text-3xl font-bold'>Let`s say your account has been hacked. What`s next?</h2>
             <p className='pt-10'>
             We work not only to pay you, but also to retrieve your account once it has been paid out.
             </p>
