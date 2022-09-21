@@ -9,8 +9,10 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: Clone Github Repo Action
-        uses: GuillaumeFalourd/clone-github-repo-action@v2
+      - name: git-sync
+        uses: wei/git-sync@v3
         with:
-          owner: barakmaron
-          repository: pi-insurance-deploy
+          source_repo: "barakmaron/pi-insurance"
+          source_branch: "main"
+          destination_repo: "barakmaron/pi-insurance-deploy"
+          destination_branch: "main"
