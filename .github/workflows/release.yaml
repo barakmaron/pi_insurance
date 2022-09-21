@@ -9,8 +9,8 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repo
-        uses: actions/checkout@v2
-        with: 
-          repository: barakmaron/pi-insurance-deploy
-          token: ${{ secrets.ACCESS_TOKEN }}
+      - name: Clone Github Repo Action
+        uses: GuillaumeFalourd/clone-github-repo-action@v2
+        with:
+          owner: barakmaron
+          repository: pi-insurance-deploy
