@@ -9,6 +9,9 @@ export default function handler(req, res) {
     case "POST": {
       return AddNewArticle(req, res);
     }
+    default: {
+      return res.status(404).json();
+    }
   }
 }
 
