@@ -108,9 +108,8 @@ const AdminBlog = ({ articles }) => {
 
 export default AdminBlog;
 
-export async function getStaticProps() {
-  const articles = await SendApiRequest(`/api/articles`);
-
+export async function getStaticProps() {  
+  const {error, data: articles} = await supabaseAdmin.from('blogs').select() || { data: [] };
   return {
     props: {
       articles: articles

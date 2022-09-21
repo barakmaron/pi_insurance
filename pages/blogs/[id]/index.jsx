@@ -50,9 +50,7 @@ export async function getStaticProps(context) {
 }
 
 export async function getStaticPaths() {
-    const {error, data: articles} = await supabaseAdmin.from('blogs').select();
-    if(error)
-        articles = [];
+    const {error, data: articles} = await supabaseAdmin.from('blogs').select() || { data: []};
     const ids = articles.map(article => article.id);
     const paths = ids.map(id => ({ 
         params: { 
