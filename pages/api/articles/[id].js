@@ -1,4 +1,3 @@
-import { articles } from '../../../data';
 import { supabaseAdmin } from '../../../services/ApiService';
 
 export default function handler(req,  res) {
