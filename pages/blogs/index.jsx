@@ -2,7 +2,7 @@ import Head from 'next/head';
 import Navbar from '../../components/NavBar/NavBar';
 import Constants from '../../Constants';
 import Link from 'next/link';
-import { supabaseAdmin } from '../../../services/ApiService';
+import { supabaseAdmin } from '../../services/ApiService';
 
 const blogs = ({ articles }) => {
   return (<>

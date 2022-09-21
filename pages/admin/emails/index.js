@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { useAppContext } from '../../../Hooks/useAppContext';
-import SendApiRequest from '../../../services/ApiService';
+import { supabaseAdmin } from '../../../services/ApiService';
 import Head from 'next/head';
 import Navbar from '../../../components/NavBar/NavBar';
 import Constants from '../../../Constants';

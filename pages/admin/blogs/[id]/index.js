@@ -9,7 +9,7 @@ const ReactQuill = dynamic(() => import('react-quill'), { ssr: false });
 import 'react-quill/dist/quill.snow.css';
 import useView from '../../../../Hooks/useView';
 import View from '../../../../components/View/View';
-import { supabaseAdmin } from '../../../services/ApiService';
+import { supabaseAdmin } from '../../../../services/ApiService';
 
 const AdminEditBlog = ({ article }) => {
     const [value, setValue] = useState('');
