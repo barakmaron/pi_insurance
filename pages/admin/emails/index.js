@@ -44,11 +44,11 @@ const EmailsAdmin = ({ emails }) => {
 export default EmailsAdmin;
 
 export async function getStaticProps() {
-    const emails = await SendApiRequest(`/api/email`);
-
+  const { error, data } = await supabaseAdmin.from('emails').select();
+  if(!error)
     return {
         props: {
-            emails
+            emails: data || []
         }
     };
 }

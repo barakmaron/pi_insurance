@@ -44,11 +44,17 @@ export default blogs;
 
 
 export async function getStaticProps() {
-  const articles = await SendApiRequest(`/api/articles`);
+  const {error, data: articles} = await supabaseAdmin.from('blogs').select();
+    if(!error)
+      return {
+        props: {
+          articles: articles
+        }
+      };
 
-  return {
-    props: {
-      articles: articles
-    }
-  };
+    return {
+      props: {
+        articles: []
+      }
+    };  
 };

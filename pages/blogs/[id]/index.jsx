@@ -27,18 +27,32 @@ export default Blog;
 
 export async function getStaticProps(context) {
     const { id } = context.params;
-    const article = await SendApiRequest(`/api/articles/${id}`);
+    const {error, data: articles} = await supabaseAdmin.from('blogs').select();
+    if(error) {
+        const filtered = articles.filter((article) => article.id === id);
 
+        if (filtered.length > 0) {
+        return res.status(200).json(filtered[0]);
+        }
+
+        return {
+            props: {
+                article: article
+            }
+        };
+    }
+    
     return {
         props: {
-            article: article
+            article: {}
         }
     };
 }
 
 export async function getStaticPaths() {
-    const articles = await SendApiRequest(`/api/articles`);
-
+    const {error, data: articles} = await supabaseAdmin.from('blogs').select();
+    if(error)
+        articles = [];
     const ids = articles.map(article => article.id);
     const paths = ids.map(id => ({ 
         params: { 
