@@ -40,6 +40,11 @@ const new_blog_form = [{
     type: "text",
     name: "hash_tag",
     place_holder: "hash_tag"
+}, {
+    type: "file",
+    name: "file",
+    place_holder: "file",
+    action: () => {}
 }];
 
 const email_form = [{
@@ -58,7 +63,7 @@ const user_messages = {
 };
 
 const numbers_section_text = [{
-    text: "You will be notified immediately",
+    text: "Pi will notify you immediately",
     color: "#3B82F6"
 }, {
     text: "Your business is back on track",
@@ -69,6 +74,13 @@ const numbers_section_text = [{
 }, {
     text: "Your business account will be retrieved",
     color: "#A855F7"
+}];
+
+const upload_image_form = [{
+    type: "file",
+    name: "file",
+    place_holder: "file",
+    action: () => {}
 }];
 
 const TOKEN_MAX_AGE = '1d';
@@ -82,7 +94,8 @@ const Constants = {
     TOKEN_MAX_AGE,
     new_blog_form,
     email_form,
-    numbers_section_text
+    numbers_section_text,
+    upload_image_form
 };
 
 export default Constants;

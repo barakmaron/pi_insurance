@@ -2,14 +2,11 @@ import Head from 'next/head';
 import Navbar from '../../../../components/NavBar/NavBar';
 import Constants from '../../../../Constants';
 import SendApiRequest from '../../../../services/ApiService';
-import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import { useCallback, useEffect, useState } from 'react';
-import dynamic from 'next/dynamic';
-const ReactQuill = dynamic(() => import('react-quill'), { ssr: false });
-import 'react-quill/dist/quill.snow.css';
 import useView from '../../../../Hooks/useView';
 import View from '../../../../components/View/View';
 import { supabaseAdmin } from '../../../../services/ApiService';
+import ArticleEditor from '../../../../components/ArticleEditor/ArticleEditor';
 
 const AdminEditBlog = ({ article }) => {
     const [value, setValue] = useState('');
@@ -54,10 +51,9 @@ const AdminEditBlog = ({ article }) => {
             <div className=' flex flex-col gap-15 mx-auto sm:w-9/12 py-10 px-12 h-4/6'>
                 <View successful={view.successful} failed={view.failed} message={view.message} />
                 <div>
-                    <ReactQuill 
-                    theme="snow" 
-                    value={value} 
-                    onChange={setValue} />
+                    <ArticleEditor
+                    value={value}
+                    setValue={setValue}></ArticleEditor>
                 </div>
                 <button 
                 onClick={submit_article}
@@ -68,18 +64,14 @@ const AdminEditBlog = ({ article }) => {
         </main>
     </>);
     };
-export default AdminEditBlog;
+export default AdminEditBlog;  
 
 export async function getStaticProps(context) {
     const { id } = context.params;
     const {error, data: articles} = await supabaseAdmin.from('blogs').select();
-    if(error) {
+    if(!error) {
         const filtered = articles.filter((article) => article.id === id);
-
-        if (filtered.length > 0) {
-        return res.status(200).json(filtered[0]);
-        }
-
+        const article = filtered[0] || {};
         return {
             props: {
                 article: article

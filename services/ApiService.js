@@ -24,3 +24,9 @@ export const supabaseAdmin = createClient(
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
     options
 );
+
+
+export const ImageLoader = ({ src }) => {
+    const encoded = Buffer.from(src).toString('base64');
+    return `/api/file/${encoded}`;
+}

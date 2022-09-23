@@ -12,6 +12,7 @@ import Form from '../../../components/Form/Form';
 import useView from '../../../Hooks/useView';
 import View from '../../../components/View/View';
 import { supabaseAdmin } from '../../../services/ApiService';
+import Image from 'next/image';
 
 const AdminBlog = ({ articles }) => {
 
@@ -20,29 +21,14 @@ const AdminBlog = ({ articles }) => {
 
   const [show_new_blog_modal, setShowNewBlogModal] = useState(false);
   const [articles_array, setArticles] = useState(articles);
-
+  const [image, setImage] = useState(null);
+  const [createObjectUrl, setObjectUrl] = useState("");
   const view = useView();
 
   useEffect(() => {
     if(!logged_in)
       router.push('/admin');
   }, [logged_in, router]);
-
-  const submit_new_blog = useCallback((event, form) => {    
-      const submit_blog = async () => {
-        try {
-          const add_blog = await SendApiRequest(`/api/articles`, Constants.API_METHODS.POST, form);
-          view.setSuccessful(true);
-          view.setMessage(Constants.user_messages.add_blog);
-          setTimeout(() => setShowNewBlogModal(false), 1000);
-          setArticles(articles => [...articles, add_blog[0]]);
-        } catch (err) {
-          view.setFailed(true);
-          view.setMessage(err);
-        }
-      };
-      submit_blog();    
-  }, [view]);
 
   const delete_article = useCallback((id) => {
     const delete_req = async () => {
@@ -58,6 +44,46 @@ const AdminBlog = ({ articles }) => {
     };
     delete_req();
   }, [view]);
+
+    const uploadToClient = useCallback(event => {
+          if(event.target.files && event.target.files[0]) {
+              const [img] = event.target.files;
+              setImage(img);
+              setObjectUrl(URL.createObjectURL(img));
+          }
+    }, []);
+
+    const uploadToServer = useCallback(async (id) => {
+        const body = new FormData();
+        body.append("file", image);
+        try {
+            const res =  await SendApiRequest(`/api/file/${id}`, Constants.API_METHODS.POST, body);
+        } catch (err) {
+          view.setFailed(true);
+          view.setMessage(err);
+        }
+    }, [image, view]);
+
+    const submit_new_blog = useCallback((event, form) => {    
+      const submit_blog = async () => {
+        try {
+          const add_blog = await SendApiRequest(`/api/articles`, Constants.API_METHODS.POST, form);
+          uploadToServer(add_blog[0].id);
+          view.setSuccessful(true);
+          view.setMessage(Constants.user_messages.add_blog);
+          setTimeout(() => setShowNewBlogModal(false), 1000);
+          setArticles(articles => [...articles, add_blog[0]]);
+        } catch (err) {
+          view.setFailed(true);
+          view.setMessage(err);
+        }
+      };
+      submit_blog();    
+  }, [view, uploadToServer]);
+
+    useEffect(() => {
+      Constants.new_blog_form[2].action = uploadToClient;
+    }, [uploadToClient]);
 
     return (<>
       <Head>
@@ -100,8 +126,13 @@ const AdminBlog = ({ articles }) => {
             })}
           </div>
           { show_new_blog_modal && <Modal setClose={() => setShowNewBlogModal(false)}>
-            <Form inputs={Constants.new_blog_form} action={submit_new_blog} />  
-            <View successful={view.successful} failed={view.failed} message={view.message} />
+            <div className='flex flex-col justify-between items-center mx-auto w-fit gap-5'>
+              <Form inputs={Constants.new_blog_form} action={submit_new_blog} />  
+              <div className="group w-full aspect-w-1 aspect-h-1 bg-gray-200 rounded-lg overflow-hidden xl:aspect-w-7 xl:aspect-h-8">
+                { image && <Image src={createObjectUrl} layout="fill" alt=""/> }
+              </div>
+              <View successful={view.successful} failed={view.failed} message={view.message} />
+            </div>
           </Modal>}
       </main>
       </>);

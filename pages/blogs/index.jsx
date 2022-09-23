@@ -2,7 +2,8 @@ import Head from 'next/head';
 import Navbar from '../../components/NavBar/NavBar';
 import Constants from '../../Constants';
 import Link from 'next/link';
-import { supabaseAdmin } from '../../services/ApiService';
+import { ImageLoader, supabaseAdmin } from '../../services/ApiService';
+import Image from 'next/image';
 
 const blogs = ({ articles }) => {
   return (<>
@@ -24,12 +25,22 @@ const blogs = ({ articles }) => {
         <ul className='w-9/12 mx-auto py-10 '>
           {articles.map(article => {
             return <Link key={`article-${article.id}`} className=' cursor-pointer' href={`/blogs/${article.id}`}>
-              <li className='my-10' >                
+              <li className='my-10 flex gap-4  h-60 ' > 
+                <div className="relative bg-gray-200 rounded-lg overflow-hidden w-1/4">
+                  <Image
+                  alt={article.title}
+                  loader={ImageLoader}
+                  src={article.image}
+                  layout="fill"
+                  objectFit="cover"/>    
+                </div>     
+                <div className='flex flex-col'>
                   <h2 className=' cursor-pointer text-2xl font-bold text-teal-500'>{article.title}</h2>     
-                <div className='flex flex-row gap-6 items-baseline'>
-                  <div className='mx-2 my-4 bg-blue-500 px-4 py-2 w-fit text-white rounded-3xl'>{article.hash_tag}</div>
-                  <div className='text-sm text-gray-600'>{article.created_at.slice(0,10)}</div>
-                </div>
+                  <div className='flex flex-row gap-6 items-baseline'>
+                    <div className='mx-2 my-4 bg-blue-500 px-4 py-2 w-fit text-white rounded-3xl'>{article.hash_tag}</div>
+                    <div className='text-sm text-gray-600'>{article.created_at.slice(0,10)}</div>
+                  </div>
+                </div>      
               </li>
                        
             </Link>;

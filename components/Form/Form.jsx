@@ -2,7 +2,7 @@ import { useCallback, useRef } from 'react';
 
 export default function Form({ 
     inputs, 
-    action 
+    action    
 }){
     const form_ref = useRef(null);
     const submit_action = useCallback((event) => {
@@ -13,12 +13,13 @@ export default function Form({
 
     return <form className="flex flex-col gap-10 justify-center items-center "
     ref={form_ref}>
-        {inputs.map(({ name, type, place_holder }, index) => {
+        {inputs.map(({ name, type, place_holder, action }, index) => {
             return <input 
                     className='py-2 px-4 border-blue-500 border-2 rounded-lg text-black'
                     name={name} 
                     type={type} 
                     placeholder={place_holder} 
+                    onChange={action}
                     key={`form-input-${name}-${index}`} />
         })}
         <button 

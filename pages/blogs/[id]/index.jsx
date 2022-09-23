@@ -1,9 +1,15 @@
+import React, { useState } from 'react';
 import Head from 'next/head';
+import Image from 'next/image';
 import Navbar from '../../../components/NavBar/NavBar';
 import Constants from '../../../Constants';
-import { supabaseAdmin } from '../../../services/ApiService';
+import { ImageLoader, supabaseAdmin } from '../../../services/ApiService';
+import ArticleBody from '../../../components/ArticleBody/ArticleBody';
+import EmailFromModal from '../../../components/EmailFromModal/EmailFromModal';
 
 const Blog = ({ article }) => {
+
+    const [show_email_form, setShowEmailForm] = useState(false);
 
     return (<>
         <Head>
@@ -18,8 +24,22 @@ const Blog = ({ article }) => {
             <div className='flex sm:flex-row flex-col py-28 gap-10 justify-around px-12 text-white bg-teal-500'>
                 <h1 className='sm:text-5xl font-bold text-3xl'>{article.title}</h1>           
             </div>
-            <article className='mx-auto sm:w-9/12 py-10 px-12' dangerouslySetInnerHTML={{ __html: article.body }}>
-            </article>
+            <div className='flex sm:w-9/12 mx-auto py-10 px-12 flex-col gap-5'>
+                <div className="bg-gray-200 rounded-lg overflow-hidden w-full relative h-96">
+                    <Image
+                    alt={article.title}
+                    loader={ImageLoader}
+                    src={article.image}
+                    layout="fill"
+                    objectFit="contain"/>    
+                </div>    
+                <article className='mx-auto py-10 px-12'>
+                    <ArticleBody 
+                    body={article.body}
+                    onClick={() => setShowEmailForm(true)}></ArticleBody>
+                </article>
+            </div>
+            <EmailFromModal show={show_email_form} setShow={setShowEmailForm} />
         </main>
     </>);
     };
@@ -27,14 +47,10 @@ export default Blog;
 
 export async function getStaticProps(context) {
     const { id } = context.params;
-    const {error, data: articles} = await supabaseAdmin.from('blogs').select();
-    if(error) {
+    const {error, data: articles} = await supabaseAdmin.from('blogs').select().match({ id });
+    if(!error) {
         const filtered = articles.filter((article) => article.id === id);
-
-        if (filtered.length > 0) {
-        return res.status(200).json(filtered[0]);
-        }
-
+        const article = filtered[0] || {};
         return {
             props: {
                 article: article
@@ -50,7 +66,7 @@ export async function getStaticProps(context) {
 }
 
 export async function getStaticPaths() {
-    const {error, data: articles} = await supabaseAdmin.from('blogs').select() || { data: []};
+    const {error, data: articles} = await supabaseAdmin.from('blogs').select() || { data: [] };
     const ids = articles.map(article => article.id);
     const paths = ids.map(id => ({ 
         params: { 

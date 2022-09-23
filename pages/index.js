@@ -2,16 +2,19 @@ import Head from 'next/head';
 import Navbar from '../components/NavBar/NavBar';
 import Constants from '../Constants';
 import _ from 'lodash';
-import moment from 'moment/moment';
 import useView from '../Hooks/useView';
 import View from '../components/View/View';
 import { useCallback, useRef, useState } from 'react';
-import Modal from '../components/Modal/Modal';
 import SendApiRequest from '../services/ApiService';
-import Form from '../components/Form/Form';
 import Button from '../components/Button/Button';
+import { SiFastapi } from 'react-icons/si';
+import { AiOutlineAlert } from 'react-icons/ai';
+import { GiTakeMyMoney } from 'react-icons/gi';
+import { MdOutlineDesignServices } from 'react-icons/md';
+import EmailFromModal from '../components/EmailFromModal/EmailFromModal';
+import Footer from '../components/Footer/Footer';
 
-export default function Home({ year }) {
+export default function Home() {
 
   const view = useView();
 
@@ -68,20 +71,32 @@ export default function Home({ year }) {
         </div>
         <div className='flex justify-center items-center flex-col'>
           <h2 className='text-black sm:text-7xl text-4xl font-extrabold  py-40'>PI has you covered.</h2>
-          <ul className='flex sm:gap-10 flex-wrap justify-around px-10 text-center gap-5'>
+          <ul className='flex sm:gap-10 flex-wrap justify-around px-10 text-center gap-5 mb-5'>
             <li className=' sm:w-80'>
+              <div className='mx-auto w-fit my-3 text-5xl text-blue-400'>
+                <SiFastapi></SiFastapi>
+              </div>
               <h3 className='sm:text-3xl font-bold text-xl pb-4'>Get an instant quote</h3>
               <p>You`re insured in just a few clicks. We provide simple self-service from onboarding to claiming.</p>
             </li>
             <li className=' sm:w-80'>
+              <div className='mx-auto w-fit my-3 text-5xl text-red-400'>
+                <AiOutlineAlert></AiOutlineAlert>
+              </div>
               <h3 className='sm:text-3xl font-bold text-xl  pb-4'>A real-time alert system</h3>
               <p>In the event that your account has been hacked, we will notify you and assist you before you know it.</p>
             </li>
             <li className='sm:w-80'>
+              <div className='mx-auto w-fit my-3 text-5xl text-green-400'>
+                <GiTakeMyMoney></GiTakeMyMoney>
+              </div>
               <h3 className='sm:text-3xl font-bold text-xl  pb-4'>Payouts are immediate</h3>
               <p>A daily payment will be made based on your coverage each day your account is hacked.</p>
             </li>
             <li className=' sm:w-80'>
+              <div className='mx-auto w-fit my-3 text-5xl text-zinc-400'>
+                <MdOutlineDesignServices></MdOutlineDesignServices>
+              </div>
               <h3 className='sm:text-3xl font-bold text-xl  pb-4'>We provide retrieval services</h3>
               <p>Our team of experts works around the clock to retrieve your instagram business account.</p>
             </li>            
@@ -90,7 +105,9 @@ export default function Home({ year }) {
         </div>
         <div className='py-10 flex flex-col md:flex-row justify-center xl:gap-96 gap-5 items-center sm:px-20 '>
           <div className='sm:w-96 w-fit mx-10'>
-            <h2 className='sm:text-5xl text-3xl font-bold'>Let`s say your account has been hacked. What`s next?</h2>
+            <h2 className='sm:text-5xl text-3xl font-bold'>
+              Your account has been hacked. What`s next?
+            </h2>
             <p className='pt-10'>
             We work not only to pay you, but also to retrieve your account once it has been paid out.
             </p>
@@ -112,24 +129,9 @@ export default function Home({ year }) {
             </ul>
           </div>
         </div>
-        { show_email_modal && <Modal setClose={() => setShowEmailModal(false)}>
-          <Form inputs={Constants.email_form} action={submit_email}/>
-          <View successful={view.successful} failed={view.failed} message={view.message} />
-        </Modal>}
+        <EmailFromModal show={show_email_modal} setShow={setShowEmailModal} />
       </main>
-      <footer className='bg-black py-5 text-white flex justify-center items-center'>
-          <span>Ⓒ PI Insurance {year}</span>
-      </footer>
+      <Footer></Footer>
     </>
   )
 };
-
-export async function getStaticProps() {
-  const year = moment().year();
-
-  return {
-    props: {
-      year
-    }
-  };
-}
