@@ -4,6 +4,7 @@ import Constants from '../../Constants';
 import Link from 'next/link';
 import { ImageLoader, supabaseAdmin } from '../../services/ApiService';
 import Image from 'next/image';
+import Footer from '../../components/Footer/Footer';
 
 const blogs = ({ articles }) => {
   return (<>
@@ -22,11 +23,11 @@ const blogs = ({ articles }) => {
           Where Instagram creators come to learn the latest tips and tricks about growing their business, protecting it from hackers, and more
           </p>
         </div>
-        <ul className='w-9/12 mx-auto py-10 '>
+        <ul className='w-9/12 mx-auto py-10'>
           {articles.map(article => {
             return <Link key={`article-${article.id}`} className=' cursor-pointer' href={`/blogs/${article.id}`}>
-              <li className='my-10 flex gap-4  h-60 ' > 
-                <div className="relative bg-gray-200 rounded-lg overflow-hidden w-1/4">
+              <li className='my-10 flex gap-4  sm:h-60 flex-col sm:flex-row h-96' > 
+                <div className="relative bg-gray-200 rounded-lg overflow-hidden sm:w-1/4 flex-1 sm:flex-none">
                   <Image
                   alt={article.title}
                   loader={ImageLoader}
@@ -47,6 +48,7 @@ const blogs = ({ articles }) => {
           })}
         </ul>
     </main>
+    <Footer></Footer>
   </>);
 };
 

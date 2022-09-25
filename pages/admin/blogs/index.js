@@ -53,22 +53,21 @@ const AdminBlog = ({ articles }) => {
           }
     }, []);
 
-    const uploadToServer = useCallback(async (id) => {
-        const body = new FormData();
-        body.append("file", image);
+    const uploadToServer = useCallback(async (form, id) => {
+        const body = form;
         try {
             const res =  await SendApiRequest(`/api/file/${id}`, Constants.API_METHODS.POST, body);
         } catch (err) {
           view.setFailed(true);
           view.setMessage(err);
         }
-    }, [image, view]);
+    }, [view]);
 
     const submit_new_blog = useCallback((event, form) => {    
       const submit_blog = async () => {
         try {
           const add_blog = await SendApiRequest(`/api/articles`, Constants.API_METHODS.POST, form);
-          uploadToServer(add_blog[0].id);
+          uploadToServer(form, add_blog[0].id);
           view.setSuccessful(true);
           view.setMessage(Constants.user_messages.add_blog);
           setTimeout(() => setShowNewBlogModal(false), 1000);

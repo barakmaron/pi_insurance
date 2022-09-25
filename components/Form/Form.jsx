@@ -7,11 +7,13 @@ export default function Form({
     const form_ref = useRef(null);
     const submit_action = useCallback((event) => {
         event.preventDefault();
-        const form_data = new FormData(form_ref?.current);
-        action(event, Object.fromEntries(form_data));
-    }, [form_ref, action]);
+        const form_data = new FormData(event.currentTarget);
+        action(event, form_data);
+    }, [action]);
 
-    return <form className="flex flex-col gap-10 justify-center items-center "
+    return <form encType="multipart/form-data" 
+    onSubmit={submit_action}
+    className="flex flex-col gap-10 justify-center items-center "
     ref={form_ref}>
         {inputs.map(({ name, type, place_holder, action }, index) => {
             return <input 
@@ -25,7 +27,6 @@ export default function Form({
         <button 
         className="mx-auto font-bold py-2 px-4 rounded hover:text-white hover:bg-blue-500 hover:border-white border-2 border-black text-blue-500 bg-white"
         id="submit" 
-        type="submit" 
-        onClick={submit_action}>Submit</button>
+        type="submit">Submit</button>
     </form>
 }

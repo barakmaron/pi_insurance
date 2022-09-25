@@ -59,7 +59,7 @@ const user_messages = {
     add_blog: "Blog was created successfully",
     delete_blog: "Blog was delete successfully",
     article_saved: "Blog was save successfully",
-    add_email: "Email was added successfully"
+    add_email: "We thank you for joining our waiting list. Our service is currently in development. Our team will contact you shortly with a quote."
 };
 
 const numbers_section_text = [{

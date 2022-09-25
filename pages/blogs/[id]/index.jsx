@@ -6,6 +6,7 @@ import Constants from '../../../Constants';
 import { ImageLoader, supabaseAdmin } from '../../../services/ApiService';
 import ArticleBody from '../../../components/ArticleBody/ArticleBody';
 import EmailFromModal from '../../../components/EmailFromModal/EmailFromModal';
+import Footer from '../../../components/Footer/Footer';
 
 const Blog = ({ article }) => {
 
@@ -21,10 +22,10 @@ const Blog = ({ article }) => {
         <main>
             <Navbar 
             routes={Constants.routes} />
-            <div className='flex sm:flex-row flex-col py-28 gap-10 justify-around px-12 text-white bg-teal-500'>
+            <div className='flex sm:flex-row flex-col py-28 gap-10 justify-around sm:px-12 text-white bg-teal-500 px-2'>
                 <h1 className='sm:text-5xl font-bold text-3xl'>{article.title}</h1>           
             </div>
-            <div className='flex sm:w-9/12 mx-auto py-10 px-12 flex-col gap-5'>
+            <div className='flex sm:w-9/12 mx-auto py-10 px-0 flex-col gap-5 sm:px-12'>
                 <div className="bg-gray-200 rounded-lg overflow-hidden w-full relative h-96">
                     <Image
                     alt={article.title}
@@ -41,6 +42,7 @@ const Blog = ({ article }) => {
             </div>
             <EmailFromModal show={show_email_form} setShow={setShowEmailForm} />
         </main>
+        <Footer></Footer>
     </>);
     };
 export default Blog;
@@ -49,8 +51,8 @@ export async function getStaticProps(context) {
     const { id } = context.params;
     const {error, data: articles} = await supabaseAdmin.from('blogs').select().match({ id });
     if(!error) {
-        const filtered = articles.filter((article) => article.id === id);
-        const article = filtered[0] || {};
+        const filtered = articles.find((article) => article.id === id);
+        const article = filtered || {};
         return {
             props: {
                 article: article

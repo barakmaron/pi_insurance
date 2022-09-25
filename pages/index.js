@@ -54,20 +54,17 @@ export default function Home() {
             Now you finally have a choice: You can lose everything to a hack, or you can protect everything with pi.
             </p>            
           </div>
-          <div className='my-10 mx-auto w-fit flex flex-col sm:flex-row sm:justify-start gap-5'>
-            <input 
-            type="email"
-            className=" py-2 px-4 h-fit rounded border-black border-2 text-teal-500 font-bold sm:text-xl "
-            placeholder="Email"
-            ref={email_input_ref} />
-            <Button text="Get Insured" onClick={(event) => submit_email(event, { email: email_input_ref.current.value })} />            
+          <div className='my-10 mx-auto w-fit flex flex-col sm:flex-col sm:justify-start gap-5'>
+            <div className='mx-auto w-fit flex flex-col sm:flex-row sm:justify-start gap-5'>
+              <input 
+              type="email"
+              className=" py-2 px-4 h-fit rounded border-black border-2 text-teal-500 font-bold sm:text-xl "
+              placeholder="Email"
+              ref={email_input_ref} />
+              <Button text="Get Insured" onClick={(event) => submit_email(event, { email: email_input_ref.current.value })} />  
+            </div>
             { !show_email_modal && <View successful={view.successful} failed={view.failed} message={view.message} /> }
           </div>
-        </div>
-        <div className='flex py-3 items-center justify-center flex-row flex-wrap gap-10 bg-teal-500'>
-          {_.range(0,5).map(index => {
-            return <h2 className='py-6 text-2xl text-white font-bold' key={`business-${index}`}>BUSINESS EX {index}</h2>;
-          })}
         </div>
         <div className='flex justify-center items-center flex-col'>
           <h2 className='text-black sm:text-7xl text-4xl font-extrabold  py-40'>PI has you covered.</h2>

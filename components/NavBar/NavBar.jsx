@@ -5,7 +5,6 @@ import { useScrollPosition } from '../../Hooks/useScrollPosition';
 import logo from '../../public/logo.png';
 import Button from '../Button/Button';
 
-
 const Navbar = ({ 
   routes,
   open_modal
@@ -16,7 +15,7 @@ const Navbar = ({
   return (
     <nav className={`sticky top-0 z-50 flex w-full bg-blue-500 py-4 sm:gap-5 gap-2 items-center justify-around text-white text-lg font-bold transition-all ${scroll_position && `shadow-xl`}`}>
       <div className=' h-12 w-36 relative'>
-        <Link href={`/`}>
+        <Link href={`/`} className="cursor-pointer">
           <Image src={logo} 
           alt="logo" 
           layout="fill"
