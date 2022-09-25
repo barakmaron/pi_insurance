@@ -19,6 +19,7 @@ const AdminPage = () => {
 
     const submit_login_action = useCallback((event, form) => {        
         event.preventDefault();
+        form = Object.fromEntries(form);
         const send_form = async () => {
             try {
                 form.password = crypto.createHash('sha512').update(form.password).digest('hex');
