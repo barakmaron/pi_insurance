@@ -3,7 +3,7 @@ import Head from 'next/head';
 import Image from 'next/image';
 import Navbar from '../../../components/NavBar/NavBar';
 import Constants from '../../../Constants';
-import { ImageLoader, supabaseAdmin } from '../../../services/ApiService';
+import { supabaseAdmin } from '../../../services/ApiService';
 import ArticleBody from '../../../components/ArticleBody/ArticleBody';
 import EmailFromModal from '../../../components/EmailFromModal/EmailFromModal';
 import Footer from '../../../components/Footer/Footer';
@@ -30,7 +30,6 @@ const Blog = ({ article }) => {
                 <div className="bg-gray-200 rounded-lg overflow-hidden w-full relative h-96">
                     <Image
                     alt={article.title}
-                    loader={ImageLoader}
                     src={article.image}
                     layout="fill"
                     objectFit="contain"/>    

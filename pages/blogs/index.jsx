@@ -2,7 +2,7 @@ import Head from 'next/head';
 import Navbar from '../../components/NavBar/NavBar';
 import Constants from '../../Constants';
 import Link from 'next/link';
-import { ImageLoader, supabaseAdmin } from '../../services/ApiService';
+import { supabaseAdmin } from '../../services/ApiService';
 import Image from 'next/image';
 import Footer from '../../components/Footer/Footer';
 import { useState } from 'react';
@@ -34,7 +34,6 @@ const Blogs = ({ articles }) => {
                 <div className="relative bg-gray-200 rounded-lg overflow-hidden sm:w-1/4 flex-1 sm:flex-none">
                   <Image
                   alt={article.title}
-                  loader={ImageLoader}
                   src={article.image}
                   layout="fill"
                   objectFit="cover"/>    

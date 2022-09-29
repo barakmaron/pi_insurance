@@ -26,8 +26,3 @@ export const supabaseAdmin = createClient(
     options
 );
 
-
-export const ImageLoader = ({ src }) => {
-    const encoded = Buffer.from(src).toString('base64');
-    return `/api/file/${encoded}`;
-}
