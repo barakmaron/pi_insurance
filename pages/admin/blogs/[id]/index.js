@@ -80,12 +80,7 @@ export async function getStaticProps(context) {
         };
     }
     
-    return {
-        props: {
-            article: {}
-        },
-        revalidate: 10,
-    };
+    return { notFound: true };
 }
 
 export async function getStaticPaths() {
