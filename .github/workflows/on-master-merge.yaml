@@ -15,6 +15,7 @@ jobs:
       - name: Heroku login container
         env:
           HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+          NEXT_PUBLIC_SUPBASE_URL: ${{ secrets.NEXT_PUBLIC_SUPBASE_URL }}
         run:  heroku container:login
       - name: Build and push
         env:
