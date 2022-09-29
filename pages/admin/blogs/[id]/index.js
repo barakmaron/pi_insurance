@@ -70,14 +70,14 @@ export async function getStaticProps(context) {
     const { id } = context.params;
     const {error, data: articles} = await supabaseAdmin.from('blogs').select();
     if(!error) {
-        const filtered = articles.filter((article) => article.id === id);
-        const article = filtered[0] || {};
-        return {
+        const filtered = articles.find((article) => article.id === id);
+        const article = filtered;
+        return article ? {
             props: {
                 article: article
             },
             revalidate: 10,
-        };
+        } : { notFound: true };
     }
     
     return { notFound: true };

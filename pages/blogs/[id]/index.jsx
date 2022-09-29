@@ -52,13 +52,13 @@ export async function getStaticProps(context) {
     const {error, data: articles} = await supabaseAdmin.from('blogs').select().match({ id });
     if(!error) {
         const filtered = articles.find((article) => article.id === id);
-        const article = filtered || {};
-        return {
+        const article = filtered;
+        return article ? {
             props: {
                 article: article
             },
             revalidate: 10,
-        };
+        } : { notFound: true };
     }
     
     return { notFound: true };
