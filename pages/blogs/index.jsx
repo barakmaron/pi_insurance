@@ -5,8 +5,11 @@ import Link from 'next/link';
 import { ImageLoader, supabaseAdmin } from '../../services/ApiService';
 import Image from 'next/image';
 import Footer from '../../components/Footer/Footer';
+import { useState } from 'react';
+import EmailFromModal from '../../components/EmailFromModal/EmailFromModal';
 
-const blogs = ({ articles }) => {
+const Blogs = ({ articles }) => {
+  const [show_email_modal, setShowEmailModal] = useState(false);
   return (<>
    <Head>
         <title>PI insurance | Blogs</title>
@@ -16,7 +19,8 @@ const blogs = ({ articles }) => {
 
     <main>
         <Navbar 
-        routes={Constants.routes} />
+        routes={Constants.routes}
+        open_modal={() => setShowEmailModal(true)} />
         <div className='flex sm:flex-row flex-col py-28 gap-10 justify-around px-12 text-white bg-teal-500'>
           <h1 className='sm:text-6xl font-bold text-3xl'>Our Blog</h1>
           <p className='sm:w-96'>
@@ -48,11 +52,12 @@ const blogs = ({ articles }) => {
           })}
         </ul>
     </main>
+    <EmailFromModal setShow={setShowEmailModal} show={show_email_modal} />
     <Footer></Footer>
   </>);
 };
 
-export default blogs;
+export default Blogs;
 
 
 export async function getStaticProps() {

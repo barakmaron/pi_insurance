@@ -19,7 +19,8 @@ const Navbar = ({
           <Image src={logo} 
           alt="logo" 
           layout="fill"
-          objectFit="contain" />
+          objectFit="contain"
+          className='cursor-pointer' />
         </Link>
       </div>
       <div className='flex sm:gap-10 gap-5 items-center'>

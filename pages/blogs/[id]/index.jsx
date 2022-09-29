@@ -21,7 +21,8 @@ const Blog = ({ article }) => {
     
         <main>
             <Navbar 
-            routes={Constants.routes} />
+            routes={Constants.routes}
+            open_modal={() => setShowEmailModal(true)} />
             <div className='flex sm:flex-row flex-col py-28 gap-10 justify-around sm:px-12 text-white bg-teal-500 px-2'>
                 <h1 className='sm:text-5xl font-bold text-3xl'>{article.title}</h1>           
             </div>
