@@ -17,7 +17,7 @@ async function Validate(req, res) {
         return res.status(401).json();
     try {
         await res.revalidate('/blogs');
-        await res.revalidate('admin/blogs');
+        await res.revalidate('/admin/blogs');
         return res.status(200).json({ revalidate: true });
     } catch (err) {
         return res.status(500).json(err);
