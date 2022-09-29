@@ -36,7 +36,6 @@ async function GetAllArticles(req, res) {
 
 async function AddNewArticle(req, res) {
   try {
-    // const { title, hash_tag } = req.body;
     const form = new formidable.IncomingForm();
     return form.parse(req, async (err, fields, files) => { 
       try {

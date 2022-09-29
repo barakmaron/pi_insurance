@@ -54,9 +54,8 @@ const AdminBlog = ({ articles }) => {
     }, []);
 
     const uploadToServer = useCallback(async (form, id) => {
-        const body = form;
         try {
-            const res =  await SendApiRequest(`/api/file/${id}`, Constants.API_METHODS.POST, body);
+            const res =  await SendApiRequest(`/api/file/${id}`, Constants.API_METHODS.POST, form);
         } catch (err) {
           view.setFailed(true);
           view.setMessage(err);

@@ -16,17 +16,19 @@ export default function handler(req, res) {
 }
 
 async function AddEmail(req, res) {
-    try {
-        const { email } = req.body;
+    const form = new formidable.IncomingForm();
+    return form.parse(req, async (err, fields, files) => { 
+      try {
         const { error, data } = await supabaseAdmin.from('emails').insert({
-            email
+            email: fields.email
         });
         if(!error) 
             return res.status(200).json();
         return res.status(400).json(error.message);
-    } catch (err) {
-        return req.status(400).json();
-    }
+      } catch (error) {
+        return res.status(500).json(error);  
+      } 
+    });
 }
 
 async function GetAllEmails(req, res) {
