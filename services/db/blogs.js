@@ -10,9 +10,12 @@ async function GetAll(){
 
 async function GetLastChangeBlogId() {
     try{
-        return await supabaseAdmin.from('blogs').select().order('updated_at', {
+        const { error, data } = await supabaseAdmin.from('blogs').select().order('updated_at', {
             ascending: false
-        }).data[0].id;
+        });
+        if(error)
+            throw error;
+        return data[0].id;
     } catch(err) {
         throw err;
     }
