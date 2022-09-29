@@ -143,6 +143,7 @@ export async function getStaticProps() {
   return {
     props: {
       articles: articles
-    }
+    },
+    revalidate: 10,
   };
 };
