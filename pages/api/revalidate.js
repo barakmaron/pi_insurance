@@ -16,9 +16,9 @@ async function Validate(req, res) {
     if(secret !== process.env.NEXT_PUBLIC_REVALIDATE_SECRET)
         return res.status(401).json();
     try {
-        await res.unstable_revalidate('/blogs');
+        await res.revalidate('/blogs');
         return res.status(200).json({ revalidate: true });
     } catch (err) {
-        return res.status(500).json();
+        return res.status(500).json(err);
     }
 }
