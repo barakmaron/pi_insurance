@@ -20,8 +20,6 @@ jobs:
         env:
           HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
           NEXT_PUBLIC_SUPBASE_URL: ${{ secrets.NEXT_PUBLIC_SUPBASE_URL }}
-        config: |
-          NEXT_PUBLIC_SUPBASE_URL
         run: heroku container:push -a pi-insurance web
       - name: Deploy
         env:
