@@ -1,5 +1,5 @@
 
-export async function handler(req, res) {
+export default async function handler(req, res) {
     const { method } = req;
     switch(method) {
         case "POST": {
