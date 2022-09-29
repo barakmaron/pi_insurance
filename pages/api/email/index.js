@@ -1,6 +1,12 @@
 import { supabaseAdmin } from "../../../services/ApiService";
 import formidable from 'formidable';
 
+export const config = {
+    api: {
+        bodyParser: false
+    }
+  };
+  
 export default function handler(req, res) {
     const { method } = req;
     switch(method) {
