@@ -8,8 +8,19 @@ async function GetAll(){
     }
 }
 
+async function GetLastChangeBlogId() {
+    try{
+        return await supabaseAdmin.from('blogs').select().order('updated_at', {
+            ascending: false
+        }).data[0].id;
+    } catch(err) {
+        throw err;
+    }
+}
+
 const blogsDB = {
-    GetAll
+    GetAll,
+    GetLastChangeBlogId
 };
 
 export default blogsDB;
