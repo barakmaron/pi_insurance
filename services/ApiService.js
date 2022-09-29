@@ -1,5 +1,7 @@
 import axios from 'axios';
 import { createClient } from '@supabase/supabase-js';
+import getConfig from 'next/config';
+const { publicRuntimeConfig: config } = getConfig();
 
 export default async function SendApiRequest(url, method = "get", params = undefined) {
     try {
@@ -20,7 +22,7 @@ const options = {
   };
 
 export const supabaseAdmin = createClient(
-    process.env.NEXT_PUBLIC_SUPBASE_URL,
+    config.app.NEXT_PUBLIC_SUPBASE_URL,
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
     options
 );
