@@ -7,19 +7,20 @@ import { supabaseAdmin } from '../../../services/ApiService';
 import ArticleBody from '../../../components/ArticleBody/ArticleBody';
 import EmailFromModal from '../../../components/EmailFromModal/EmailFromModal';
 import Footer from '../../../components/Footer/Footer';
+import { useRouter } from 'next/router';
 
 const Blog = ({ article }) => {
-
+    const router = useRouter();
     const [show_email_form, setShowEmailForm] = useState(false);
 
     return (<>
         <Head>
-            <title>PI insurance | Blog | {article.title}</title>
+            <title>PI insurance | Blog | { !router.isFallback ? article.title : "Loading" }</title>
             <meta name="description" content="PI insurance" />
             <link rel="icon" href="/favicon.ico" />
         </Head>
     
-        <main>
+        { !router.isFallback ? <main>
             <Navbar 
             routes={Constants.routes}
             open_modal={() => setShowEmailForm(true)} />
@@ -41,7 +42,7 @@ const Blog = ({ article }) => {
                 </article>
             </div>
             <EmailFromModal show={show_email_form} setShow={setShowEmailForm} />
-        </main>
+        </main> : <div>Loading...</div>};
         <Footer></Footer>
     </>);
     };

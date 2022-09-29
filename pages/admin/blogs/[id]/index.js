@@ -7,42 +7,46 @@ import useView from '../../../../Hooks/useView';
 import View from '../../../../components/View/View';
 import { supabaseAdmin } from '../../../../services/ApiService';
 import ArticleEditor from '../../../../components/ArticleEditor/ArticleEditor';
+import { useRouter } from 'next/router';
 
 const AdminEditBlog = ({ article }) => {
     const [value, setValue] = useState('');
+    const router = useRouter();
 
     const view = useView();
-
     useEffect(() => {    
-        setValue(article.body);
-    }, [article.body]);
+        if(!router.isFallback)
+            setValue(article.body);
+    }, [router.isFallback, article]);
 
     
 
     const submit_article = useCallback(() => {
-        const submit = async () => {
-            try {
-                const set_article = await SendApiRequest(`/api/articles/${article.id}`, Constants.API_METHODS.PATCH, {
-                    body: value
-                });
-                view.setSuccessful(true);
-                view.setMessage(Constants.user_messages.article_saved);
-            } catch (err) {
-                view.setFailed(true);
-                view.setMessage(err.message);
-            }
-        };
-        submit();
-    }, [value, article.id, view]);
+        if(!router.isFallback)  {
+            const submit = async () => {
+                try {
+                    const set_article = await SendApiRequest(`/api/articles/${article.id}`, Constants.API_METHODS.PATCH, {
+                        body: value
+                    });
+                    view.setSuccessful(true);
+                    view.setMessage(Constants.user_messages.article_saved);
+                } catch (err) {
+                    view.setFailed(true);
+                    view.setMessage(err.message);
+                }
+            };
+            submit();
+        }
+    }, [router, value, article, view]);
 
     return (<>
         <Head>
-            <title>PI insurance | Blog | {article.title}</title>
+            <title>PI insurance | Blog | { !router.isFallback ? article.title : "Loading" }</title>
             <meta name="description" content="PI insurance" />
             <link rel="icon" href="/favicon.ico" />
         </Head>
     
-        <main className='h-screen'>
+        { !router.isFallback ? <main className='h-screen'>
             <Navbar 
             routes={Constants.admin_routes} />
             <div className='flex sm:flex-row flex-col py-28 gap-10 justify-around px-12 text-white bg-teal-500'>
@@ -61,7 +65,7 @@ const AdminEditBlog = ({ article }) => {
               save
             </button>
             </div> 
-        </main>
+        </main> : <div>Loading...</div>};
     </>);
     };
 export default AdminEditBlog;  
