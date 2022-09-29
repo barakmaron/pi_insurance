@@ -1,15 +1,6 @@
-import fs from 'fs';
 import { supabaseAdmin } from '../../../../services/ApiService';
-import nc from 'next-connect';
-import UploadImageMiddleware from '../../../../middleware/UploadImageMiddleware';
-import bodyParser from 'body-parser';
-import path from 'path';
-import { fileURLToPath } from 'url';
 import cloudinary from '../../../../services/Cloudinary';
 import formidable from 'formidable';
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
 
 export const config = {
     api: {
