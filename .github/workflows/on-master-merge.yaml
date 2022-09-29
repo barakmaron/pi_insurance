@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
   push:
     branches:
-      - master
+      - main
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -12,16 +12,13 @@ jobs:
     steps:
       - name: Checkout repo
         uses: actions/checkout@v2
-      - name: Heroku login container
+      - uses: akhileshns/heroku-deploy@v3.12.12 # This is the action
+        with:
+          heroku_api_key: ${{secrets.HEROKU_API_KEY}}
+          heroku_app_name: 'pi-insurance'
+          heroku_email: 'barak062@gmail.com'
+          usedocker: true
+          docker_build_args: |
+            NEXT_PUBLIC_SUPBASE_URL
         env:
-          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-        run:  heroku container:login
-      - name: Build and push
-        env:
-          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-          NEXT_PUBLIC_SUPBASE_URL: ${{ secrets.NEXT_PUBLIC_SUPBASE_URL }}
-        run: heroku container:push -a pi-insurance web
-      - name: Deploy
-        env:
-          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-        run: heroku container:release -a pi-insurance web
+          NEXT_PUBLIC_SUPBASE_URL: ${{secrets.NEXT_PUBLIC_SUPBASE_URL}}
