@@ -26,7 +26,7 @@ async function Validate(req, res) {
             await RevalidateAdminBlogs(req, res);
             break;
         }
-        case 'blogs_update': {
+        case 'blog_update': {
             await RevalidateBlogUpdate(req, res);
             break;
         }
