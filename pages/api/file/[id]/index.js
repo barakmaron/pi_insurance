@@ -1,11 +1,12 @@
-import { supabaseAdmin } from '../../../../services/ApiService';
+
 import cloudinary from '../../../../services/Cloudinary';
 import formidable from 'formidable';
+import blogsDB from '../../../../services/db/blogs';
 
 export const config = {
-    api: {
-        bodyParser: false
-    }
+  api: {
+      bodyParser: false
+  }
 };
 
 async function  AddImage(req, res) {
@@ -24,11 +25,7 @@ async function  AddImage(req, res) {
 }
 
 const insertToBD = async (file, id) => { 
-    await supabaseAdmin.from('blogs').update([{
-       image: file,
-    }]).match({
-        id
-    });
+  await blogsDB.UpdateBlog([{ image: file }], id); 
 };
 
 
@@ -48,7 +45,7 @@ async function uploadImage(file) {
 }
 
 async function handler(req, res) {
-    const { method } = req;
+  const { method } = req;
   switch (method){
     case "POST": {
       return AddImage(req, res);

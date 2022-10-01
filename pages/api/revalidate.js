@@ -64,7 +64,7 @@ async function RevalidateAdminBlogs(req, res) {
 
 async function RevalidateBlogUpdate(req, res) {
     try {
-        const id = await blogsDB.GetLastChangeBlogId();
+        const { id } = await blogsDB.GetLastChangeBlog();
         return await res.revalidate(`/blogs/${id}`);
     } catch (err) {
         throw err;
@@ -74,7 +74,7 @@ async function RevalidateBlogUpdate(req, res) {
 
 async function RevalidateAdminBlogUpdate(req, res) {
     try {
-        const id = await blogsDB.GetLastChangeBlogId();
+        const { id } = await blogsDB.GetLastChangeBlog();
         return await res.revalidate(`/admin/blogs/${id}`);
     } catch (err) {
         throw err;

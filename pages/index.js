@@ -25,11 +25,9 @@ export default function Home() {
     event.preventDefault();
     try {
       const add_email = await SendApiRequest(`/api/email`, Constants.API_METHODS.POST, form);
-      view.setSuccessful(true);
-      view.setMessage(Constants.user_messages.add_email);
+      view.SetSuccessful(Constants.user_messages.add_email);
     } catch (err) {
-      view.setFailed(true);
-      view.setMessage(Constants.user_messages.add_email_failed);
+      view.SetFailed(Constants.user_messages.add_email_failed);
     }
   }, [view]);
 

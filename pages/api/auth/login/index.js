@@ -1,6 +1,6 @@
-import { supabaseAdmin } from "../../../../services/ApiService";
 import AuthService from "../../../../services/AuthService";
 import { serialize } from 'cookie';
+import userDB from "../../../../services/db/user";
 
 export default async function handleLogin(req, res) {
     const { method } = req;
@@ -20,24 +20,23 @@ export default async function handleLogin(req, res) {
 async function Login(req, res) {
     const { email, password } = req.body;
     try{
-        const { data, error } = await supabaseAdmin.from('user').select();
+        const { data, error } = await userDB.FindUserByEmail(email);
         if(!error && data.length) {
-            const { email: email_db, password: password_db, id } = data[0];
-            if(email_db === email && password === password_db) {
+            const [{ email: email_db, password: password_db, id }] = data;
+            if(AuthService.CheckUserCredentials(email, password, email_db, password_db)) {
                 const access_token = AuthService.GenerateToken(id);
                 if(access_token) {
-                    return res.setHeader('Set-Cookie', serialize('jwt', access_token, { 
-                        path: '/',
-                        httpOnly: true
-                    })).status(200).json();
-                } 
-                return res.status(401).json();
-            } else
-                return res.status(401).json();
-        }
-        
+                    return res.setHeader('Set-Cookie', 
+                        serialize('jwt', access_token, { 
+                            path: '/',
+                            httpOnly: true
+                        })).status(200).json();
+                }                
+            }
+            return res.status(401).json();
+        }        
     } catch (err) {
-        return res.status(400).json({});
+        return res.status(400).json();
     }
 }
 

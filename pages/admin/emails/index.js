@@ -5,6 +5,7 @@ import { supabaseAdmin } from '../../../services/ApiService';
 import Head from 'next/head';
 import Navbar from '../../../components/NavBar/NavBar';
 import Constants from '../../../Constants';
+import emailDB from '../../../services/db/email';
 
 const EmailsAdmin = ({ emails }) => {
     const { logged_in } = useAppContext();
@@ -44,12 +45,11 @@ const EmailsAdmin = ({ emails }) => {
 export default EmailsAdmin;
 
 export async function getStaticProps() {
-  const { error, data } = await supabaseAdmin.from('emails').select();
-  if(!error)
-    return {
-        props: {
-            emails: data || []
-        }
-    };
+  const { error, data } = await emailDB.GetAll();
+  return {
+      props: {
+          emails: error ? [] : data
+      }
+  };
 }
 

@@ -11,8 +11,8 @@ import Modal from '../../../components/Modal/Modal';
 import Form from '../../../components/Form/Form';
 import useView from '../../../Hooks/useView';
 import View from '../../../components/View/View';
-import { supabaseAdmin } from '../../../services/ApiService';
 import Image from 'next/image';
+import blogsDB from '../../../services/db/blogs';
 
 const AdminBlog = ({ articles }) => {
 
@@ -34,12 +34,10 @@ const AdminBlog = ({ articles }) => {
     const delete_req = async () => {
       try {
         const delete_article_req = await SendApiRequest(`/api/articles/${id}`, Constants.API_METHODS.DELETE);
-        view.setSuccessful(true);
-        view.setMessage(Constants.user_messages.delete_blog);
+        view.SetSuccessful(Constants.user_messages.delete_blog);
         setArticles(articles => articles.filter(article => article.id !== id));
       } catch (err) {
-        view.setFailed(true);
-        view.setMessage(err);
+        view.SetFailed(err.message);
       }
     };
     delete_req();
@@ -57,8 +55,7 @@ const AdminBlog = ({ articles }) => {
         try {
             const res =  await SendApiRequest(`/api/file/${id}`, Constants.API_METHODS.POST, form);
         } catch (err) {
-          view.setFailed(true);
-          view.setMessage(err);
+          view.SetFailed(err.message);
         }
     }, [view]);
 
@@ -67,13 +64,11 @@ const AdminBlog = ({ articles }) => {
         try {
           const add_blog = await SendApiRequest(`/api/articles`, Constants.API_METHODS.POST, form);
           uploadToServer(form, add_blog[0].id);
-          view.setSuccessful(true);
-          view.setMessage(Constants.user_messages.add_blog);
+          view.SetSuccessful(Constants.user_messages.add_blog);
           setTimeout(() => setShowNewBlogModal(false), 1000);
           setArticles(articles => [...articles, add_blog[0]]);
         } catch (err) {
-          view.setFailed(true);
-          view.setMessage(err);
+          view.SetFailed(err.message);
         }
       };
       submit_blog();    
@@ -139,10 +134,10 @@ const AdminBlog = ({ articles }) => {
 export default AdminBlog;
 
 export async function getStaticProps() {  
-  const {error, data: articles} = await supabaseAdmin.from('blogs').select() || { data: [] };
+  const {error, data: articles} = await blogsDB.GetAll();
   return {
     props: {
-      articles: articles
+      articles: error ? [] : articles
     },
     revalidate: 10,
   };

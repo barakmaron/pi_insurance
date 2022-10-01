@@ -8,6 +8,7 @@ import ArticleBody from '../../../components/ArticleBody/ArticleBody';
 import EmailFromModal from '../../../components/EmailFromModal/EmailFromModal';
 import Footer from '../../../components/Footer/Footer';
 import { useRouter } from 'next/router';
+import blogsDB from '../../../services/db/blogs';
 
 const Blog = ({ article }) => {
     const router = useRouter();
@@ -50,7 +51,7 @@ export default Blog;
 
 export async function getStaticProps(context) {
     const { id } = context.params;
-    const {error, data: articles} = await supabaseAdmin.from('blogs').select().match({ id });
+    const {error, data: articles} = await blogsDB.GetBlogById(id);
     if(!error) {
         const filtered = articles.find((article) => article.id === id);
         const article = filtered;
@@ -66,8 +67,8 @@ export async function getStaticProps(context) {
 }
 
 export async function getStaticPaths() {
-    const {error, data: articles} = await supabaseAdmin.from('blogs').select() || { data: [] };
-    const ids = articles.map(article => article.id);
+    const {error, data: articles} = await blogsDB.GetAll();
+    const ids = error ? [] : articles.map(article => article.id);
     const paths = ids.map(id => ({ 
         params: { 
             id: id

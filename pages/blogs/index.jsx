@@ -2,11 +2,11 @@ import Head from 'next/head';
 import Navbar from '../../components/NavBar/NavBar';
 import Constants from '../../Constants';
 import Link from 'next/link';
-import { supabaseAdmin } from '../../services/ApiService';
 import Image from 'next/image';
 import Footer from '../../components/Footer/Footer';
 import { useState } from 'react';
 import EmailFromModal from '../../components/EmailFromModal/EmailFromModal';
+import blogsDB from '../../services/db/blogs';
 
 const Blogs = ({ articles }) => {
   const [show_email_modal, setShowEmailModal] = useState(false);
@@ -60,19 +60,11 @@ export default Blogs;
 
 
 export async function getStaticProps() {
-  const {error, data: articles} = await supabaseAdmin.from('blogs').select();
-    if(!error)
-      return {
-        props: {
-          articles: articles
-        },
-        revalidate: 10,
-      };
-
-    return {
-      props: {
-        articles: []
-      },
-      revalidate: 10,
-    };  
+  const {error, data: articles} = await blogsDB.GetAll();
+  return {
+    props: {
+      articles: !error ? articles : []
+    },
+    revalidate: 10,
+  };
 };

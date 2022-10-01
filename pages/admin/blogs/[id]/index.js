@@ -5,9 +5,9 @@ import SendApiRequest from '../../../../services/ApiService';
 import { useCallback, useEffect, useState } from 'react';
 import useView from '../../../../Hooks/useView';
 import View from '../../../../components/View/View';
-import { supabaseAdmin } from '../../../../services/ApiService';
 import ArticleEditor from '../../../../components/ArticleEditor/ArticleEditor';
 import { useRouter } from 'next/router';
+import blogsDB from '../../../../services/db/blogs';
 
 const AdminEditBlog = ({ article }) => {
     const [value, setValue] = useState('');
@@ -28,11 +28,9 @@ const AdminEditBlog = ({ article }) => {
                     const set_article = await SendApiRequest(`/api/articles/${article.id}`, Constants.API_METHODS.PATCH, {
                         body: value
                     });
-                    view.setSuccessful(true);
-                    view.setMessage(Constants.user_messages.article_saved);
+                    view.SetSuccessful(Constants.user_messages.article_saved);
                 } catch (err) {
-                    view.setFailed(true);
-                    view.setMessage(err.message);
+                    view.SetFailed(err.message);
                 }
             };
             submit();
@@ -72,13 +70,12 @@ export default AdminEditBlog;
 
 export async function getStaticProps(context) {
     const { id } = context.params;
-    const {error, data: articles} = await supabaseAdmin.from('blogs').select();
+    const {error, data: articles} = await blogsDB.GetAll();
     if(!error) {
         const filtered = articles.find((article) => article.id === id);
-        const article = filtered;
-        return article ? {
+        return filtered ? {
             props: {
-                article: article
+                article: filtered
             },
             revalidate: 10,
         } : { notFound: true };
@@ -88,8 +85,8 @@ export async function getStaticProps(context) {
 }
 
 export async function getStaticPaths() {
-    const {error, data: articles} = await supabaseAdmin.from('blogs').select() || { data: [] };
-    const ids = articles.map(article => article.id);
+    const {error, data: articles} = await blogsDB.GetAll();
+    const ids = error ? [] : articles.map(article => article.id);
     const paths = ids.map(id => ({ 
         params: { 
             id: id

@@ -7,15 +7,15 @@ import { useCallback, useState, useEffect } from 'react';
 import SendApiRequest from '../../services/ApiService';
 import crypto from 'crypto';
 import { useRouter } from 'next/router';
+import View from '../../components/View/View';
+import useView from '../../Hooks/useView';
 
 const AdminPage = () => {
 
     const { logged_in, setLogin } = useAppContext();
     const router = useRouter();
 
-    const [successful, setSuccessful] = useState(false);
-    const [failed, setFailed] = useState(false);
-    const [message, setMessage] = useState("");
+    const view = useView();
 
     const submit_login_action = useCallback((event, form) => {        
         event.preventDefault();
@@ -25,20 +25,14 @@ const AdminPage = () => {
                 form.password = crypto.createHash('sha512').update(form.password).digest('hex');
                 const res = await SendApiRequest(`/api/auth/login`, Constants.API_METHODS.POST, form);
                 setLogin(true);
-                setSuccessful(true);
-                setFailed(false);
-                setMessage(Constants.user_messages.login_successful);
+                view.SetSuccessful(Constants.user_messages.login_successful);
             } catch (err) {
                 setLogin(false);
-                setFailed(true);
-                setSuccessful(false);
-                setMessage(Constants.user_messages.login_failed);
+                view.SetFailed(Constants.user_messages.login_failed);
             }
         };
-
-        send_form();
-        
-    }, [setLogin]);
+        send_form();        
+    }, [setLogin, view]);
 
     useEffect(() => {
         if(logged_in)
@@ -59,8 +53,7 @@ const AdminPage = () => {
             <h1 className='sm:text-6xl font-bold text-3xl'>Login</h1>
             <div>
                 { !logged_in && <Form inputs={Constants.login_form} action={submit_login_action} /> }
-                { successful && <div className='bg-green-300 border-2 py-2 px-4 border-green-500 my-2 rounded-2xl text-black'>{message}</div> }
-                { failed && <div className='bg-rose-300 border-2 py-2 px-4 border-rose-500 my-2 rounded-2xl text-black'>{message}</div> }
+                <View successful={view.successful} failed={view.failed} message={view.message} />
             </div>
         </div>
         
