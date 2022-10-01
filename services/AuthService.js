@@ -14,9 +14,14 @@ function Verify(token) {
     return jwt.verify(token, process.env.NEXT_PUBLIC_ACCESS_TOKEN);
 }
 
+function CheckUserCredentials(email, password, email_db, password_db){
+    return email_db === email && password === password_db;
+}
+
 const AuthService = { 
     GenerateToken,
-    Verify
+    Verify,
+    CheckUserCredentials
 };
 
 export default AuthService;

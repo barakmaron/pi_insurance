@@ -1,5 +1,4 @@
 import axios from 'axios';
-import { createClient } from '@supabase/supabase-js';
 
 
 export default async function SendApiRequest(url, method = "get", params = undefined) {
@@ -12,17 +11,3 @@ export default async function SendApiRequest(url, method = "get", params = undef
         throw err;
     }
 }
-const options = {
-    schema: 'public',
-    headers: { 'x-my-custom-header': 'my-app-name' },
-    autoRefreshToken: true,
-    persistSession: true,
-    detectSessionInUrl: true,
-  };
-
-export const supabaseAdmin = createClient(
-    process.env.NEXT_PUBLIC_SUPBASE_URL,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
-    options
-);
-
