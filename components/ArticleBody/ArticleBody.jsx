@@ -14,8 +14,6 @@ function isValidNode() {
   return true;
 };
 
-
-
 const ArticleBody = ({ 
     body, 
     onClick

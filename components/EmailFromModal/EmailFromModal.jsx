@@ -13,23 +13,14 @@ const EmailFromModal = ({
 
     const view = useView();
 
-    useEffect(() => {
-        view.setSuccessful(false);
-        view.setFailed(false);
-    }, [view]);
-
     const submit_email = useCallback(async (event, form) => {
         event.preventDefault();
         try {
-          const add_email = await SendApiRequest(`/api/email`, Constants.API_METHODS.POST, form);
-          view.setSuccessful(true);
-          view.setFailed(false);
-          view.setMessage(Constants.user_messages.add_email);
-          setShow(false);
+          const add_email = await SendApiRequest(`/api/email`, Constants.API_METHODS.POST, form);          
+          view.SetSuccessful(Constants.user_messages.add_email);
+          setTimeout(() => setShow(false), 1000);
         } catch (err) {
-          view.setFailed(true);
-          view.setSuccessful(false)
-          view.setMessage(Constants.user_messages.add_email_failed);
+          view.SetFailed(Constants.user_messages.add_email_failed);
         }
       }, [view, setShow]);
 
