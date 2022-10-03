@@ -2,7 +2,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useScrollPosition } from '../../Hooks/useScrollPosition';
-import logo from '../../public/logo.png';
+import logo from '../../public/logo.webp';
 import Button from '../Button/Button';
 
 const Navbar = ({ 
@@ -14,7 +14,7 @@ const Navbar = ({
 
   return (
     <nav className={`sticky top-0 z-50 flex w-full bg-blue-500 py-4 sm:gap-5 gap-2 items-center justify-around text-white text-lg font-bold transition-all ${scroll_position && `shadow-xl`}`}>
-      <div className=' h-12 w-36 relative'>
+      <div className=' h-20 w-36 relative'>
         <Link href={`/`} className="cursor-pointer">
           <Image src={logo} 
           alt="logo" 
