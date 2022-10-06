@@ -11,7 +11,7 @@ const Footer = () => {
         <Link href={"https://www.facebook.com/people/Pi-Insurance/100085973664589/"}>
           <AiFillFacebook className='text-blue-700 text-2xl cursor-pointer'></AiFillFacebook>
         </Link>
-        <Link href={"https://www.linkedin.com/in/pi-insurance-3121bb252/"}>
+        <Link href={"https://www.instagram.com/get_pi_insurance/"}>
           <FiInstagram className='text-pink-500 text-2xl cursor-pointer'></FiInstagram>
         </Link>
         <Link href={"https://www.linkedin.com/in/pi-insurance-3121bb252/"}>
